@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11111a">
+  <meta name="description" content="A practical video workspace for projects, simple edits, captions and publishing.">
+  <title>CreatorStudio — Video workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="toast" class="toast" role="status"></div>
+  <main id="auth" class="auth-shell hidden">
+    <section class="auth-aside">
+      <a class="brand" href="/"><span class="brand-mark">✦</span><span>CreatorStudio</span></a>
+      <div class="auth-message">
+        <span class="eyebrow">Your ideas, in motion</span>
+        <h1>A calmer place to make your next video.</h1>
+        <p>Keep footage, drafts and publishing details together. Edit a clip, shape the story, and share when you’re ready.</p>
+        <div class="auth-feature"><span>01</span> Projects and footage that stay yours</div>
+        <div class="auth-feature"><span>02</span> Simple cuts with real video export</div>
+        <div class="auth-feature"><span>03</span> Optional AI and social publishing</div>
+      </div>
+      <div class="auth-glow"></div>
+    </section>
+    <section class="auth-form-wrap">
+      <div class="auth-form">
+        <div class="mobile-brand brand"><span class="brand-mark">✦</span><span>CreatorStudio</span></div>
+        <span class="eyebrow" id="auth-kicker">WELCOME BACK</span>
+        <h2 id="auth-heading">Sign in to your studio</h2>
+        <p class="muted" id="auth-copy">Your projects are waiting for you.</p>
+        <form id="auth-form">
+          <label id="name-wrap" class="hidden">Your name<input id="auth-name" autocomplete="name" placeholder="Name"></label>
+          <label>Email address<input id="auth-email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+          <label>Password<input id="auth-password" type="password" autocomplete="current-password" minlength="10" required placeholder="At least 10 characters"></label>
+          <button class="button primary wide" id="auth-submit">Sign in <span>↗</span></button>
+        </form>
+        <p class="switch-auth" id="auth-switch">New here? <button class="text-button" type="button">Create an account</button></p>
+        <p class="auth-note">Your media is stored on your app’s configured server storage.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="app" class="app-shell hidden">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">✦</span><span>CreatorStudio</span></a>
+      <button class="button new-project" id="new-project">＋ <span>New project</span></button>
+      <div class="side-label">WORKSPACE</div>
+      <button class="side-link active" id="home-link"><span class="side-icon">◫</span> All projects</button>
+      <div class="side-label project-label">RECENT PROJECTS</div>
+      <div class="project-list" id="project-list"></div>
+      <div class="sidebar-bottom">
+        <div class="storage-card"><div class="storage-top"><span>Studio status</span><span class="status-dot"></span></div><p id="storage-text">Ready when you are</p><span class="storage-sub" id="storage-sub">Media stays in your workspace</span></div>
+        <button class="profile-row" id="profile-button"><span class="avatar" id="avatar">S</span><span class="profile-copy"><b id="profile-name">Creator</b><small id="profile-email">creator@example.com</small></span><span class="more">···</span></button>
+      </div>
+    </aside>
+    <section class="main-area">
+      <header class="topbar">
+        <div class="crumbs"><span>Workspace</span><span class="crumb-slash">/</span><b id="breadcrumb">All projects</b></div>
+        <div class="top-actions"><span class="save-status" id="save-status">All changes saved</span><button class="button ai-button" id="open-ai">✦ <span>Ask AI</span></button><button class="button publish-button" id="open-publish">Publish <span>↗</span></button></div>
+      </header>
+      <section class="content" id="content"></section>
+    </section>
+  </div>
+
+  <dialog id="ai-dialog" class="modal"><form method="dialog" class="modal-head"><div><span class="eyebrow">CREATOR ASSISTANT</span><h3>Make the next step easier.</h3></div><button class="icon-button" aria-label="Close">×</button></form><div class="modal-body"><div class="ai-intro"><span class="ai-spark">✦</span><div><b>What would you like help with?</b><p class="muted">Draft metadata or get a practical editing suggestion.</p></div></div><label>Your request<textarea id="ai-prompt" rows="3" placeholder="Write a short, curious title for my travel video…"></textarea></label><div class="quick-prompts"><button data-prompt="Write a clear, engaging title and description for this video">Title + description</button><button data-prompt="Write a friendly Instagram caption and a few relevant hashtags">Social caption</button><button data-prompt="Suggest a concise edit plan for this video">Edit suggestion</button></div><button class="button primary wide" id="ai-generate">Create suggestions <span>↗</span></button><div id="ai-result" class="ai-result hidden"></div></div></dialog>
+
+  <dialog id="publish-dialog" class="modal"><form method="dialog" class="modal-head"><div><span class="eyebrow">SHARE YOUR WORK</span><h3>Choose where this video goes.</h3></div><button class="icon-button" aria-label="Close">×</button></form><div class="modal-body"><div class="connected-account"><div class="platform-icon youtube-icon">▶</div><div class="account-copy"><b>YouTube</b><span id="youtube-account">Not connected</span></div><button class="button small outline" data-connect="youtube">Connect</button></div><div class="connected-account"><div class="platform-icon instagram-icon">◎</div><div class="account-copy"><b>Instagram Reels</b><span id="instagram-account">Not connected</span></div><button class="button small outline" data-connect="instagram">Connect</button></div><div class="publish-fields"><label>Video to publish<select id="publish-asset"></select></label><label>Title<input id="publish-title" maxlength="100" placeholder="A clear, inviting title"></label><label>Description<textarea id="publish-description" rows="3" placeholder="Tell viewers what they’ll see"></textarea></label><label>Tags<input id="publish-tags" placeholder="travel, tutorial, creator"></label><label>Caption<textarea id="publish-caption" rows="3" maxlength="2200" placeholder="A caption for Instagram"></textarea></label><div class="publish-options"><label>Audience<select id="publish-privacy"><option value="private">Private</option><option value="unlisted">Unlisted</option><option value="public">Public</option></select></label><label class="check-label"><input id="publish-kids" type="checkbox"> Made for kids</label></div><label class="check-label"><input id="publish-feed" type="checkbox" checked> Share Instagram Reel to feed</label></div><div class="publish-actions"><button class="button youtube-publish" id="publish-youtube">Upload to YouTube</button><button class="button instagram-publish" id="publish-instagram">Post Reel</button></div><p class="modal-footnote">Publishing sends the selected video and details to the connected account.</p></div></dialog>
+  <script src="/app.js" defer></script>
+</body>
+</html>
